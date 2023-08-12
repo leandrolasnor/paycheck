@@ -1,11 +1,5 @@
 # frozen_string_literal: true
 
-require './delivery_paycheck/transaction.rb'
-require 'dry/validation'
-require 'ostruct'
-require 'pry'
-require 'csv'
-
 class PaycheckDeliver < Dry::CLI::Command
   extend Dry::Initializer
 

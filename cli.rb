@@ -1,10 +1,21 @@
 # frozen_string_literal: true
 
+require 'dry/transaction'
 require 'dry/initializer'
+require 'dry/validation'
+require 'dry/container'
+require 'progress_bar'
+require 'combine_pdf'
+require 'dry/monads'
+require 'pdf/reader'
 require 'key_path'
 require 'dry/cli'
+require 'ostruct'
 require 'yaml'
+require 'pry'
+require 'csv'
 
+require './delivery_paycheck/transaction.rb'
 Dir['./commands/**/*.rb'].each { require _1 }
 Dir['./contracts/**/*.rb'].each { require _1 }
 

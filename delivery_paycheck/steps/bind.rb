@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-require 'dry/monads'
-require 'pdf/reader'
-
 class Bind
   include Dry::Monads[:result, :try]
   extend  Dry::Initializer

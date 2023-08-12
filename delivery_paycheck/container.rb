@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-require 'dry/container'
-Dir['./delivery_paycheck/steps/*.rb'].each { require _1 }
-
 class Container
   extend Dry::Container::Mixin
 

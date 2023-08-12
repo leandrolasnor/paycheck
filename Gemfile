@@ -30,3 +30,5 @@ gem 'pry'
 gem 'yaml'
 
 gem 'key_path'
+
+gem 'progress_bar'

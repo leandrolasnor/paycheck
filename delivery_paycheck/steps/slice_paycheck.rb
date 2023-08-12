@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'combine_pdf'
-
 class SlicePaycheck
   include Dry::Monads[:result, :try]
   extend  Dry::Initializer

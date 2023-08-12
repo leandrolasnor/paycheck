@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-require 'dry/initializer'
-require 'dry/transaction'
+Dir['./delivery_paycheck/steps/*.rb'].each { require _1 }
 require './delivery_paycheck/container.rb'
 
 class Transaction
