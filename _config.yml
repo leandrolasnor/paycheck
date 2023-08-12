@@ -1,0 +1,15 @@
+---
+paycheck:
+  paycheck_file_path: paycheck.pdf
+  people_file_path: test.tab
+action_mailer:
+  raise_delivery_errors: true
+  delivery_method: :smtp
+  smtp_settings:
+    address: smtp.gmail.com
+    domain: gmail.com
+    port: 465
+    authentication: :login
+    ssl: true
+    user_name: onetwothree@uol.com
+    password: 123
