@@ -8,19 +8,25 @@ class Bind
 
   def call(paths_to_paychecks:, people_list:, **params)
     res = Try do
-      paths_to_paychecks.map do |path|
-        pdf_file = reader.new(path)
-        paycheck_content = content(pdf_file)
+      bar = Progress.register("Anexando os arquivos [:bar] :percent", total: paths_to_paychecks.count)
+      ths = paths_to_paychecks.map do |path|
+        Thread.new do
+          bar.advance
+          pdf_file = reader.new(path)
+          paycheck_content = content(pdf_file)
 
-        index = people_list.find_index do
-          paycheck_content.scan(/#{_1.name}|#{_1.position}/).present?
+          index = people_list.find_index do
+            paycheck_content.scan(/#{_1.name}|#{_1.position}/).present?
+          end
+
+          next if index.nil?
+          person = people_list.delete_at(index)
+          person.paycheck_file_path = path
+          person
         end
-
-        next if index.nil?
-        person = people_list.delete_at(index)
-        person.paycheck_file_path = path
-        person
       end
+
+      ths.map(&:value)
     end
 
     res.failure? ? Failure(res.exception) : Success(params.merge(people_list: res.value!.compact))

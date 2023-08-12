@@ -5,11 +5,11 @@ class SlicePaycheck
   extend  Dry::Initializer
 
   option :pdf, default: -> { CombinePDF }
+  option :paycheck_file, default: -> { pdf.load(Config[:paycheck][:paycheck_file_path]) }
   option :pages_dir, default: -> { File.absolute_path('pages') }
 
-  def call(paycheck_file_path:, **params)
+  def call(**params)
     mkdir_pages
-    paycheck_file = load(paycheck_file_path)
     paths_to_paychecks = slices(paycheck_file)
 
     Success(params.merge(paths_to_paychecks: paths_to_paychecks))
@@ -25,23 +25,24 @@ class SlicePaycheck
 
   def slices(paycheck_file)
     res = Try do
-      paycheck_file.pages.map.with_index(1) do
-        page_path = "#{pages_dir}/#{_2}.pdf"
-
-        sliced = pdf.new
-        sliced << _1
-        sliced.save(page_path)
-
-        page_path
+      bar = Progress.register("Separando os arquivos [:bar] :percent", total: paycheck_file.pages.count)
+      ths = paycheck_file.pages.map.with_index(1) do |page, i|
+        Thread.new do
+          bar.advance
+          slice(page, i)
+        end
       end
+      ths.map(&:value)
     end
 
     res.failure? ? Failure(res.exception) : res.value!
   end
 
-  def load(paycheck_file_path)
-    res = Try { pdf.load(paycheck_file_path) }
-
-    res.failure? ? Failure(res.exception) : res.value!
+  def slice(page, i)
+    page_path = "#{pages_dir}/#{i}.pdf"
+    sliced = pdf.new
+    sliced << page
+    sliced.save(page_path)
+    page_path
   end
 end

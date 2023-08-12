@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+Progress = TTY::ProgressBar::Multi.new("Paycheck Deliver  [:bar] :percent")
+
 class Container
   extend Dry::Container::Mixin
 

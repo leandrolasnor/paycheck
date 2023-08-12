@@ -2,9 +2,9 @@
 
 require 'dry/transaction'
 require 'dry/initializer'
+require 'tty-progressbar'
 require 'dry/validation'
 require 'dry/container'
-require 'progress_bar'
 require 'combine_pdf'
 require 'dry/monads'
 require 'pdf/reader'
@@ -15,20 +15,21 @@ require 'yaml'
 require 'pry'
 require 'csv'
 
-require './delivery_paycheck/transaction.rb'
 Dir['./commands/**/*.rb'].each { require _1 }
 Dir['./contracts/**/*.rb'].each { require _1 }
+
+Config = YAML.load_file('./config.yml').deep_symbolize_keys
 
 module CLI
   extend Dry::CLI::Registry
 
-  register '-modify', aliases: ['-m'] do |prefix|
-    prefix.register 'config', UpdateConfigCommand
+  register 'config' do |prefix|
+    prefix.register '-m', UpdateConfigCommand
+    prefix.register '-l', ListConfigCommand
   end
 
-  register '-list', aliases: ['-l'] do |prefix|
-    prefix.register 'people', ListPeopleCommand
-    prefix.register 'config', ListConfigCommand
+  register 'people' do |prefix|
+    prefix.register '-l', ListPeopleCommand
   end
 
   register 'deliver', PaycheckDeliver

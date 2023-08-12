@@ -13,5 +13,7 @@ class Transaction
 
   private
 
-  def params(input) end
+  def params(input)
+    Progress.start
+  end
 end

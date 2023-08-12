@@ -8,16 +8,18 @@ class SendEmails
 
   option :mailer, default: -> { PaycheckMailer }
 
-  def call(people_list:, config:)
+  def call(people_list:)
     res = Try do
-      people_list.map do
-        mail = mailer.(
-          email: _1.email,
-          paycheck_file_path: _1.paycheck_file_path,
-          config: config
-        )
-        mail.deliver_now
+      bar = Progress.register("Enviando os e-mails [:bar] :percent", total: people_list.count)
+      ths = people_list.map do |p|
+        Thread.new do
+          delived = mailer.(email: p.email, paycheck_file_path: p.paycheck_file_path).deliver_now
+          bar.advance
+          delived
+        end.join
       end
+
+      ths.map(&:value)
     end
 
     res.failure? ? Failure(res.exception) : Success(res.value!)
