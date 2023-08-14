@@ -23,6 +23,7 @@ Config = YAML.load_file('./config.yml').deep_symbolize_keys
 module CLI
   extend Dry::CLI::Registry
 
+  register 'config', ListConfigCommand
   register 'config' do |prefix|
     prefix.register '-m', UpdateConfigCommand
     prefix.register '-l', ListConfigCommand
