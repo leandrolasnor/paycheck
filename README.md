@@ -1,4 +1,5 @@
 # Paycheck Deliver
+> ruby:3.2.2-alpine3.18
 
 _Um "relatório de holerite" geralmente se refere a um documento que detalha os ganhos e deduções de um funcionário em um determinado período de pagamento. Ele é comumente emitido pelas empresas para os funcionários como comprovante de pagamento e para fins de prestação de contas. O relatório de holerite normalmente inclui informações como salário bruto, descontos de impostos, contribuições para a previdência social, horas trabalhadas, entre outros._
 
