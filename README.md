@@ -4,7 +4,7 @@ _Um "relatório de holerite" geralmente se refere a um documento que detalha os 
 
 Dado um arquivo .pdf com `n` páginas, contendo em cada uma das páginas o relatório de holerite de um funcionário, desejamos separá-lo em `n` arquivos .pdf independentes, para posteriormente enviá-lo por email de forma individual a cada um dos funcinários.
 
-> O projeto desenvolvido nesse repositório foi escrito em Ruby3 e faz a divisão das páginas de um único relatório de holerite, correlacionando o conteúdo da página do holerite ao email do funcionário. Por fim, envia o email para o endereço eletrônico do funcionário anexando o holerite.
+> O projeto desenvolvido nesse repositório foi escrito em Ruby3 e faz a divisão das páginas de um único relatório de holerite em pdf, correlacionando o conteúdo da página do holerite ao email do funcionário. Por fim, envia o email individualmente para o endereço eletrônico do funcionário anexando o holerite.
 
 # Arquivos
 Coloque os dois arquivos no mesmo nível de diretório do arquivo `cli.rb`
@@ -13,7 +13,7 @@ O primeiro arquivo será o `paycheck.pdf` (Arquivo com todos os holerites)
 
 O Segundo arquivo será o `people.tab` (Arquivo `csv` separado por tabulações que deverá ter três colunas [name, email, position])
 
-_Esses dois arquivos serão usados para realizer o processo de corelação entre o email e o conteúdo do holerite, e obviamente as páginas extraídas do primeiro arquivo serão anexadas nas mensagens_
+_Esses dois arquivos serão usados para realizer o processo de correlação entre o email e o conteúdo do holerite, e obviamente as páginas extraídas do primeiro arquivo serão anexadas nas mensagens_
 
 # Configurações
 
@@ -39,7 +39,7 @@ action_mailer:
     password: 123
 ```
 
-## Faça alterações nas configurações
+## Coloque sua configurações
 
 `ruby cli.rb config -m [PATH] [VALUE]`
 
@@ -68,3 +68,17 @@ action_mailer:
 ```
 
 _Não se esqueça de configurar uma senha nas configurações da sua conta do google para usar o serviço de smtp. Uma senha especial deverá ser gerada no menu **Google Contas > Senhas de app**_
+
+## Rode o script
+
+_Com todas as configurações feitas, rode:_
+
+```
+> ruby cli.rb deliver
+
+┌ Paycheck Deliver  [===] 100%                                           
+└── Separando os arquivos [=] 100%
+└── Anexando os arquivos [=] 100%
+└── Enviando os e-mails [=] 100%
+Processo concluído
+```
