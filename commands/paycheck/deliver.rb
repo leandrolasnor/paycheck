@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require './delivery_paycheck/transaction.rb'
-Dir['./listeners/*.rb'].each { require _1 }
 
 ProgressBar = TTY::ProgressBar::Multi.new("Delivery Paycheck [:bar] :percent", bar_format: :box, incomplete: " ")
 ProgressBar.start

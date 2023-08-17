@@ -17,6 +17,7 @@ require 'csv'
 
 Dir['./commands/**/*.rb'].each { require _1 }
 Dir['./contracts/**/*.rb'].each { require _1 }
+Dir['./listeners/*.rb'].each { require _1 }
 
 Config = YAML.load_file('./config.yml').deep_symbolize_keys
 
