@@ -14,7 +14,7 @@ O primeiro arquivo será o `paycheck.pdf` (Arquivo com todos os holerites)
 
 O Segundo arquivo será o `people.tab` (Arquivo `csv` separado por tabulações que deverá ter três colunas [name, email, position])
 
-_Esses dois arquivos serão usados para realizer o processo de correlação entre o email e o conteúdo do holerite, e obviamente as páginas extraídas do primeiro arquivo serão anexadas nas mensagens_
+_Esses dois arquivos serão usados para realizar o processo de correlação usando o email da pessoa, a função da pessoa e o conteúdo do holerite_
 
 # Configurações
 
