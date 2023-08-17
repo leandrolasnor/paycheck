@@ -11,11 +11,9 @@ class SlicePaycheck
 
   register_event 'paycheck.fork'
 
-  def call(**params)
+  def call(params)
     mkdir_pages
-    paths_to_paychecks = slices(paycheck_file)
-
-    params.merge(paths_to_paychecks: paths_to_paychecks)
+    params.merge(paths_to_paychecks: slices(paycheck_file))
   end
 
   private
@@ -29,7 +27,7 @@ class SlicePaycheck
       sliced = pdf.new
       sliced << page
       sliced.save("#{pages_dir}/#{i}.pdf")
-
+      
       publish('paycheck.fork', page: i)
       "#{pages_dir}/#{i}.pdf"
     end

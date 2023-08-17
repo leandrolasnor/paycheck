@@ -11,18 +11,17 @@ class Bind
 
   def call(paths_to_paychecks:, people_list:, **params)
     people_list = paths_to_paychecks.map do |path|
-      pdf_file = reader.new(path)
-      paycheck_content = pdf_file.pages.last.text
+      paycheck_content = reader.new(path).pages.last.text
 
       index = people_list.find_index do
         paycheck_content.scan(/#{_1.name}|#{_1.position}/).present?
       end
-
       next if index.nil?
-      person = people_list.delete_at(index)
-      person.paycheck_file_path = path
 
+      person = people_list.delete_at(index)
       publish('paycheck.bound', person: person)
+
+      person.paycheck_file_path = path
       person
     end
 
