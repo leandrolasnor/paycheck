@@ -7,13 +7,11 @@ class Transaction
   include Dry::Transaction(container: ::Container)
 
   tee :params
-  step :slice, with: 'steps.slice_paycheck'
-  step :bind, with: 'steps.bind'
-  step :send_emails, with: 'steps.send_emails'
+  try :slice, with: 'steps.slice_paycheck', catch: StandardError
+  try :bind, with: 'steps.bind', catch: StandardError
+  try :send_emails, with: 'steps.send_emails', catch: StandardError
 
   private
 
-  def params(input)
-    Progress.start
-  end
+  def params(input) end
 end

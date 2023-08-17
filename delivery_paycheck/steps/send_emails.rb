@@ -3,26 +3,19 @@
 require './delivery_paycheck/paycheck_mailer.rb'
 
 class SendEmails
-  include Dry::Monads[:result, :try]
+  include Dry::Monads[:result]
+  include Dry::Events::Publisher[:sender]
   extend Dry::Initializer
 
   option :mailer, default: -> { PaycheckMailer }
 
+  register_event 'paycheck.sended'
+
   def call(people_list:)
-    res = Try do
-      bar = Progress.register("Enviando os e-mails [:bar] :percent", total: people_list.count)
-      ths = people_list.map do |p|
-        Thread.new do
-          delived = mailer.(email: p.email, paycheck_file_path: p.paycheck_file_path).deliver_now
-          bar.advance
-          delived
-        end.join
-      end
-
-      ths.map(&:value)
+    people_list.map do |person|
+      publish('paycheck.sended', person: person)
+      mailer.(email: person.email, paycheck_file_path: person.paycheck_file_path).deliver_now
     end
-
-    res.failure? ? Failure(res.exception) : Success(res.value!)
   ensure
     FileUtils.remove_dir(File.absolute_path('pages'))
   end

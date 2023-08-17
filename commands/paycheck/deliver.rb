@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 require './delivery_paycheck/transaction.rb'
+Dir['./listeners/*.rb'].each { require _1 }
+
+ProgressBar = TTY::ProgressBar::Multi.new("Delivery Paycheck [:bar] :percent", bar_format: :box, incomplete: " ")
+ProgressBar.start
 
 class PaycheckDeliver < Dry::CLI::Command
   extend Dry::Initializer
@@ -9,9 +13,17 @@ class PaycheckDeliver < Dry::CLI::Command
   option :people_file_path, default: -> { Config[:paycheck][:people_file_path] }
   option :options, default: -> { { headers: true, col_sep: "\t", liberal_parsing: true, header_converters: :symbol } }
   option :people_list, default: -> { CSV.foreach(people_file_path, **options).map { person_struct.new(**_1.to_h) } }
+  option :transaction, default: -> { Transaction.new }
 
   def call
-    Transaction.new.(people_list: people_list) do
+    transaction.subscribe(slice: SlicePaycheckListener)
+    transaction.subscribe(bind: BindListener)
+    transaction.subscribe(send_emails: SendEmailsListener)
+    transaction.operations[:slice].subscribe('paycheck.fork') { $slicer_bar.advance }
+    transaction.operations[:bind].subscribe('paycheck.bound') { $binder_bar.advance }
+    transaction.operations[:send_emails].subscribe('paycheck.sended') { $sender_bar.advance }
+
+    transaction.(people_list: people_list) do
       _1.failure do |e|
         puts e.message
       end
