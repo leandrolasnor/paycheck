@@ -1,3 +1,5 @@
+ad-*.pdf
+pag-*.pdf
 config.yml
 .env
 people.tab
