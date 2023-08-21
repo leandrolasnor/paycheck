@@ -13,8 +13,9 @@ class Bind
     people_list = paths_to_paychecks.map do |path|
       paycheck_content = reader.new(path).pages.last.text
 
-      index = people_list.find_index do
-        paycheck_content.scan(/#{_1.name}|#{_1.position}/).count == 2
+      index = people_list.find_index do |person|
+        position = person.position.gsub('(','\(').gsub(')','\)')
+        paycheck_content.scan(/#{person.name}|#{position}/).uniq.eql?([person.name, person.position])
       end
       next if index.nil?
 

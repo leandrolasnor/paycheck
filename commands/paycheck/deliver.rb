@@ -2,10 +2,11 @@
 
 require './delivery_paycheck/transaction.rb'
 
+ProgressBar = TTY::ProgressBar::Multi.new("Delivery Paycheck [:bar] :percent", bar_format: :box, incomplete: " ")
+
 class PaycheckDeliver < Dry::CLI::Command
   extend Dry::Initializer
 
-  option :progress_bar, default: -> { TTY::ProgressBar::Multi.new("Delivery Paycheck [:bar] :percent", bar_format: :box, incomplete: " ") }
   option :person_struct, default: -> { Struct.new(:name, :position, :email, :paycheck_file_path) }
   option :people_file_path, default: -> { Config[:paycheck][:people_file_path] }
   option :options, default: -> { { headers: true, col_sep: "\t", liberal_parsing: true, header_converters: :symbol } }
@@ -13,6 +14,7 @@ class PaycheckDeliver < Dry::CLI::Command
   option :transaction, default: -> { Transaction.new }
 
   def call
+    ProgressBar.start
     transaction.subscribe(slice: SlicePaycheckListener)
     transaction.subscribe(bind: BindListener)
     transaction.subscribe(send_emails: SendEmailsListener)
