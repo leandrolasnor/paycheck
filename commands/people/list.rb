@@ -4,7 +4,7 @@ class ListPeopleCommand < Dry::CLI::Command
   extend Dry::Initializer
 
   option :options, default: -> { { headers: true, col_sep: "\t", liberal_parsing: true, header_converters: :symbol } }
-  option :people, default: -> { CSV.parse(File.read('test.tab'), **options) }
+  option :people, default: -> { CSV.parse(File.read(Config[:paycheck][:people_file_path]), **options) }
 
   desc 'List of people'
   def call
