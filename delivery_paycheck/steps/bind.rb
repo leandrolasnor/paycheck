@@ -14,7 +14,7 @@ class Bind
       paycheck_content = reader.new(path).pages.last.text
 
       index = people_list.find_index do
-        paycheck_content.scan(/#{_1.name}|#{_1.position}/).present?
+        paycheck_content.scan(/#{_1.name}|#{_1.position}/).count == 2
       end
       next if index.nil?
 
