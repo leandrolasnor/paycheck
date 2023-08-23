@@ -3,7 +3,7 @@
 
 _Um "relatório de holerite" geralmente se refere a um documento que detalha os ganhos e deduções de um funcionário em um determinado período de pagamento. Ele é comumente emitido pelas empresas para os funcionários como comprovante de pagamento e para fins de prestação de contas. O relatório de holerite normalmente inclui informações como salário bruto, descontos de impostos, contribuições para a previdência social, horas trabalhadas, entre outros._
 
-Dado um arquivo .pdf com `n` páginas, contendo em cada uma das páginas o relatório de holerite de um funcionário, desejamos separá-lo em `n` arquivos .pdf independentes, para posteriormente enviá-lo por email de forma individual a cada um dos funcinários.
+Dado um arquivo .pdf com `n` páginas, contendo em cada uma das páginas o relatório de holerite de um funcionário, desejamos separá-lo em `n` arquivos .pdf independentes, para posteriormente enviá-lo por email de forma individual a cada um dos funcionários.
 
 > O projeto desenvolvido nesse repositório foi escrito em Ruby3 e faz a divisão das páginas de um único relatório de holerite em pdf, correlacionando o conteúdo da página do holerite ao email do funcionário. Por fim, envia o email individualmente para o endereço eletrônico do funcionário anexando o holerite.
 
