@@ -26,6 +26,6 @@ class Bind
       person
     end
 
-    params.merge(people_list: people_list)
+    params.merge(people_list: people_list.compact)
   end
 end
