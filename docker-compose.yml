@@ -1,1 +1,9 @@
-
+# docker-compose.yml
+version: '3.8'
+services:
+  paycheck:
+    image: leandrolasnor/ruby:paycheck
+    container_name: paycheck.app
+    stdin_open: true
+    tty: true
+    command: sh
