@@ -1,3 +1,13 @@
+__Esse repositório dispoem de _.devcontainer_ para agilizar a criação de um ambiente adequado a execução do script__
+
+### :whale: .devcontainer
+
+1. Rode o comando no Visual Code e dê ___Enter___.
+    - `> Dev Containers: Clone Repository in Container Volume...`
+2. Informe o _URL_ do repositório e dê ___Enter___
+    - `https://github.com/leandrolasnor/paycheck`
+3. :hourglass_flowing_sand: Aguarde o ambiente ser construído
+
 # Paycheck Deliver
 > ruby:3.2.2-alpine3.18
 
