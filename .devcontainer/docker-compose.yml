@@ -3,6 +3,9 @@ version: '3.8'
 services:
   paycheck:
     image: leandrolasnor/ruby:paycheck
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
     container_name: paycheck.app
     stdin_open: true
     tty: true
