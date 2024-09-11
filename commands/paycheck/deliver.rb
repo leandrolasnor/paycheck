@@ -2,8 +2,6 @@
 
 require './delivery_paycheck/transaction.rb'
 
-ProgressBar = TTY::ProgressBar::Multi.new("Delivery Paycheck [:bar] :percent", bar_format: :box, incomplete: " ")
-
 class PaycheckDeliver < Dry::CLI::Command
   extend Dry::Initializer
 

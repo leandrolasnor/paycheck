@@ -20,6 +20,7 @@ Dir['./contracts/**/*.rb'].each { require _1 }
 Dir['./listeners/*.rb'].each { require _1 }
 
 Config = YAML.load_file('./config.yml').deep_symbolize_keys
+ProgressBar = TTY::ProgressBar::Multi.new("Delivery Paycheck #{Config[:paycheck][:paycheck_file_path]} [:bar] :percent", bar_format: :box, incomplete: " ")
 
 module CLI
   extend Dry::CLI::Registry
