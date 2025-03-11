@@ -1,5 +1,5 @@
-ad-*.pdf
-pag-*.pdf
+*.pdf
+!paycheck.pdf
 config.yml
 .env
 people.tab

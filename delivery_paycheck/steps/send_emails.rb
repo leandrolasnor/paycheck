@@ -13,9 +13,8 @@ class SendEmails
 
   def call(people_list:)
     people_list.map do |person|
-      publish('paycheck.sended', person: person)
       mailer.(email: person.email, paycheck_file_path: person.paycheck_file_path).deliver_now
-      sleep 5
+      publish('paycheck.sended', person: person)
     end
   ensure
     FileUtils.remove_dir(File.absolute_path('pages'))

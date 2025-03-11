@@ -27,7 +27,7 @@ class SlicePaycheck
       sliced = pdf.new
       sliced << page
       sliced.save("#{pages_dir}/#{i}.pdf")
-      
+
       publish('paycheck.fork', page: i)
       "#{pages_dir}/#{i}.pdf"
     end
